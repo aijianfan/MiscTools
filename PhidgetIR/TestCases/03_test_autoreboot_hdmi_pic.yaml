@@ -1,0 +1,16 @@
+# 前置条件：
+# 1. STR需要设置为OFF
+# 2. HDMI需要接入信号源，打开HDMI2.0开关，信号源设置分辨率为4K60Hz
+# 3. 进入HDMI通道，然后开始测试
+
+Action:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 5000
+  Steps:
+    - Step: Power
+      Duration: 10
+    - Step: Power
+      Duration: 60
+    - Step: Pic
+      Scenario: hdmi_reboot

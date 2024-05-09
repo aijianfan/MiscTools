@@ -1,0 +1,17 @@
+Action:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 5000
+  Steps:
+    - Step: Down
+      Duration: 2
+    - Step: Entre
+      Duration: 2 
+    - Step: Entre
+      Duration: 15  
+    - Step: Pic
+      Scenario: online
+    - Step: Power
+      Duration: 10
+    - Step: Power
+      Duration: 10

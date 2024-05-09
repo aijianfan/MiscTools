@@ -1,0 +1,11 @@
+Action:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 5000
+  Steps:
+    - Step: Power
+      Duration: 10
+    - Step: Power
+      Duration: 10
+    - Step: Pic
+      Scenario: av_home

@@ -1,0 +1,23 @@
+Action:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 5000
+  Steps:
+    - Step: Input
+      Duration: 2
+     - Step: Right
+      Duration: 2     
+    - Step: Enter
+      Duration: 5
+    - Step: Pic
+      Scenario: hdmi1_playback    
+    - Step: Input
+      Duration: 2
+     - Step: Right
+      Duration: 2 
+     - Step: Right
+      Duration: 2        
+    - Step: Enter
+      Duration: 5
+    - Step: Pic
+      Scenario: hdmi2_playback  

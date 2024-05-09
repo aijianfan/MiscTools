@@ -1,0 +1,15 @@
+Action:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 5000
+  Steps:
+    - Step: Home
+      Duration: 2
+    - Step: Pic
+      Scenario: home
+    - Step: Input
+      Duration: 2
+    - Step: Enter
+      Duration: 5
+    - Step: Pic
+      Scenario: dtv_playback

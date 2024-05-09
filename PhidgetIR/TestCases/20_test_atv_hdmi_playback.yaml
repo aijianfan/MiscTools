@@ -1,0 +1,37 @@
+# 前置条件：
+# 1. 平台接入ATV与HDMI信号，ATV完成搜台操作，HDMI接入4K源设置4K60Hz分辨率
+# 2. PC接入USB Camera
+
+Action1:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 500
+  Steps:
+    - Step: Home
+      Duration: 2
+    # - Step: Pic
+    #   Scenario: home
+    - Step: Input
+      Duration: 2
+    - Step: Enter
+      Duration: 5
+    # - Step: Rec
+    #   Scenario: atv_playback
+      
+Action2:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 500
+  Steps:
+    - Step: Home
+      Duration: 2
+    - Step: Pic
+      Scenario: home
+    - Step: Input
+      Duration: 2
+    - Step: Right
+      Duration: 2
+    - Step: Enter
+      Duration: 5
+    - Step: Rec
+      Scenario: hdmi_playback

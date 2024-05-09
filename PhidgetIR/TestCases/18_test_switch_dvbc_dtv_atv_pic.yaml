@@ -1,0 +1,51 @@
+Action:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 5000
+  Steps:
+    - Step: Menu
+      Duration: 2
+    - Step: Right
+      Duration: 2
+    - Step: up
+      Duration: 2
+    - Step: Enter
+      Duration: 5
+    - Step: Pic
+      Scenario: dtv_channel_switch
+    - Step: Menu
+      Duration: 2
+    - Step: Right
+      Duration: 2
+    - Step: up
+      Duration: 2
+    - Step: Right
+      Duration: 2     
+    - Step: Enter
+      Duration: 5
+    - Step: Pic
+      Scenario: atv_channel_switch
+    - Step: Menu
+      Duration: 2
+    - Step: Right
+      Duration: 2
+    - Step: up
+      Duration: 2
+    - Step: Left
+      Duration: 2     
+    - Step: Enter
+      Duration: 5
+    - Step: Pic
+      Scenario: dtv_channel_switch
+    - Step: Menu
+      Duration: 2
+    - Step: Right
+      Duration: 2
+    - Step: up
+      Duration: 2
+    - Step: Right
+      Duration: 2     
+    - Step: Enter
+      Duration: 5
+    - Step: Pic
+      Scenario: dvbc_channel_switch

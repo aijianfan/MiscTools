@@ -1,0 +1,25 @@
+Action1:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 2
+  Steps:
+    - Step: Home
+      Duration: 2
+    - Step: Pic
+      Scenario: home
+    - Step: Input
+      Duration: 2
+    - Step: Enter
+      Duration: 5
+    - Step: Rec
+      Scenario: atv_playback
+
+Action2:
+  Manufacturer: Hisense
+  Use_Camera: False
+  Cycle: 3
+  Steps:
+    - Step: Up
+      Duration: 2
+    - Step: Pic
+      Scenario: atv_switch

@@ -1,0 +1,16 @@
+# 前置条件：
+# 1. STR需要设置为OFF
+# 2. AV接入信号源
+# 3. 进入AV通道开始播放，然后开始测试
+
+Action:
+  Manufacturer: Hisense
+  Use_Camera: True
+  Cycle: 5000
+  Steps:
+    - Step: Power
+      Duration: 10
+    - Step: Power
+      Duration: 60
+    - Step: Pic
+      Scenario: av_reboot
