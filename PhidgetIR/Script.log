@@ -1,0 +1,25 @@
+Get parameter configuration:
+**************************************************
+[01] Learning Mode 1  = False
+[02] Learning Mode 2  = False
+[03] Sending Signal   = False
+[04] Customer         = None
+[05] Remote Key       = None
+[06] YAML Case        = 01_test_autoreboot_atv_pic.yaml
+[07] Show info        = False
+[08] is Random        = False
+[09] Verbose          = False
+**************************************************
+
+Phidget device attached successfully!
+=================================================================
+Processing: Action
+==================== Start of loop: 1 of 5000 ====================
+Attempt to send remote key from [ Hisense ]: < Power >
+Attempt to send remote key from [ Hisense ]: < Power >
+Attempt to send remote key from [ Hisense ]: < Pic >
+Missing key: 'Pic' not in file [remote_control_codes.yaml]
+cannot unpack non-iterable NoneType object
+=================================================================
+Running Time: 0.0 day(s) 0.0 hour(s) 1.0 min(s) 11.7 second(s)
+=================================================================

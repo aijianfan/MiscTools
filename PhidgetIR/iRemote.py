@@ -82,7 +82,7 @@ class LoadConfig:
                                             log_time_format="[%Y/%m/%d %H:%M:%S]",               # datetime时间格式
                                             omit_repeated_times=False,                           # False=逐行打印logging时间戳 
                                             keywords=['USB Camera', 'PhidgetIR', 'Hold']),       # 高亮Console中关键字
-                                logging.FileHandler('Script.log', mode='a', encoding='utf-8')
+                                logging.FileHandler('Script.log', mode='w', encoding='utf-8')
                                                   ])
 
     def show_logo(self):
