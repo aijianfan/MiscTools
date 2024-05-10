@@ -506,9 +506,6 @@ if __name__ == "__main__":
                 for key, details in data.items():
                     process_action(key, details, ir)   # 主程序
         
-        # except Exception as e:
-        #     logging.error(f'Unexpected exception: {e}')
-        #     config.console.print_exception()
         finally:
             summary_result()  # 汇总脚本执行耗时等信息
     
