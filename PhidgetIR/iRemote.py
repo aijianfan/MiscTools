@@ -4,13 +4,13 @@
 # __Date__: 2024/4/3
 # __Python__: 3.9.6
 # __Phidget22__: v1.17.20231004(http://www.phidgets.com)
-# __Opencv__: v4.6.0
 # __Author__: Jianfan.Ai
 ##################################################
 # Usage:
-# 1. 如何进入学习模式. ex: python3 iRemote.py -l -c Hisense                 // -l:进入学习模式, -c Hisense: 指定为Hisense厂商的Remote 
-# 2. 如何进行发送键值. ex: python3 iRemote.py -s -c Hisense -k Home         // -s:进入发送模式, -c Hisense: 指定为Hisense厂商的Remote, -k Home: 发送Hisense Remote的Home键 
-# 3. 如何加载所选定的测试脚本文件配置文件来进行测试 . ex: python3 iRemote.py -f test_atv_playback.yaml   // 加载该配置文件中的所有信息并开始测试,包括: 厂商Remote、循环次数、具体按键、延迟时间等
+# 1. 如何进入学习模式1. ex: python3 iRemote.py -l -c Hisense                 // -l:进入学习模式1, -c Hisense: 指定为Hisense厂商的Remote 
+# 2. 如何进入学习模式2. ex: python3 iRemote.py -m -c Hisense                 // -m:进入学习模式2, -c Hisense: 指定为Hisense厂商的Remote 
+# 3. 如何进行发送键值. ex: python3 iRemote.py -s -c Hisense -k Home         // -s:进入发送模式, -c Hisense: 指定为Hisense厂商的Remote, -k Home: 发送Hisense Remote的Home键 
+# 4. 如何加载所选定的测试脚本文件配置文件来进行测试 . ex: python3 iRemote.py -f test_atv_playback.yaml   // 加载该配置文件中的所有信息并开始测试,包括: 厂商Remote、循环次数、键值、延迟时间等
 ##################################################
 
 import os
@@ -411,11 +411,6 @@ class PhidgetIR:
         except PhidgetException as e:
             logging.error(f"Error during code transfering: {e}")
             raise
-
-    # def to_file2(self, manufacturer: str, button_name: str, rawdata: list, file: str) -> None:
-    #     """ 向YAML文件中添加遥控器按键代码. """
-    #    try:
-    
 
     def to_file(self, manufacturer: str, button_name: str, code: str, codeInfo: dict, rawdata: list, file: str) -> None:
         """ 向YAML文件中添加遥控器按键代码. """
