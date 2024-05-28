@@ -422,26 +422,27 @@ Ref_tv:
       - 540
       - 638
   Left:
-    code: 807fd22d
+    code: 807fd827
     codeInfo:
       bitCount: 32
       carrierFrequency: 38000
       dutyCycle: 0.5
       encoding: 2
-      gap: 108414
+      gap: 108612
       header:
-      - 9010
-      - 4530
+      - 9020
+      - 4540
       minRepeat: 1
       one:
-      - 540
-      - 1721
+      - 542
+      - 1723
       repeat: 0
       toggleMask: ''
-      trail: 540
+      trail: 542
       zero:
-      - 540
+      - 542
       - 638
+    rawdata: null
   Right:
     code: 807f38c7
     codeInfo:
