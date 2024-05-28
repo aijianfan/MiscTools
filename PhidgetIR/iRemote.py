@@ -385,6 +385,7 @@ class PhidgetIR:
             logging.info(f'Attempt to send remote key from [ {customer} ]: < {remote_button} >')
             code_info_dict = config.keycodes.get(customer.capitalize(), {}).get(remote_button.capitalize(), {})
             code = code_info_dict.get('code', None)
+            code_info = code_info_dict.get('codeInfo', None)
             rawdata = code_info_dict.get('rawdata', None)
         except KeyError as e:
             logging.error(f'Missing key in data: {e}')
@@ -399,8 +400,8 @@ class PhidgetIR:
                 ('one', [525, 1708]), ('header', [4442, 4516]), ('trail', 525),
                 ('gap', 107669), ('minRepeat', 1), ('dutyCycle', 0.5),
                 ('toggleMask', ''), ('carrierFrequency', 38000)]:
-                setattr(codeInfo, attr, code_info_dict.get(attr, default_value))
-        if code and code_info_dict:
+                setattr(codeInfo, attr, code_info.get(attr, default_value))
+        if code and codeInfo:
             logging.debug(f'Key code read from memory: {code}')
             logging.debug(f'Key codeInfo converted from memory : {codeInfo}')
         return code, codeInfo, rawdata
