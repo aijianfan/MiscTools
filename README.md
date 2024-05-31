@@ -2,7 +2,7 @@
 Includes various test scripts
 
 # JiraViz
-Collect Jira related script and get more help in daily work.
+Collect Jira related script and get more help in daily work. 
 # 进入学习模式1(阻塞模式, 依赖参数:[-l, -c CUSTOMER]): 接收红外键值. ex: python3 iRemote.py -l -c Hisense
 ir.learn_code()
     
