@@ -176,26 +176,6 @@ class VintHubController:
         except PhidgetException as e:
             logging.error("Failed to set SPL Change Trigger: {}".format(e.details))
 
-    # def capture_sensor_data(self, duration):
-    #     """
-    #     Run the test for a specified duration.
-
-    #     :param duration: The duration of the test in seconds.
-    #     """
-    #     # Assign event handlers
-    #     self.light_sensor.setOnIlluminanceChangeHandler(self.onIlluminanceChange)
-    #     self.sound_sensor.setOnSPLChangeHandler(self.onSPLChange)
-        
-    #     start_time = time.time()
-    #     while not self.stop and time.time() - start_time < duration:
-    #         # Record timestamps periodically
-    #         timestamp = datetime.datetime.now()
-    #         self.timestamps['video'].append(timestamp)
-    #         self.timestamps['audio'].append(timestamp)
-    #         time.sleep(1)   # Sleep for 1 second to ensure uniform sampling
-    #     self.stop = True    # Ensure the loop exits
-    #     self.close()        # Close sensors to ensure proper exit
-
     def capture_sensor_data(self, duration):
         """
         Run the test for a specified duration.
@@ -297,10 +277,10 @@ if __name__ == "__main__":
     
     # Usage
     try:
-        vinthub = VintHubController(light_sensor_port=1, sound_sensor_port=2, hub_serial_number=751480, verbose=False)
+        vinthub = VintHubController(light_sensor_port=1, sound_sensor_port=2, hub_serial_number=751480, verbose=True)
         # controller = VintHubController(light_sensor_port=1, hub_serial_number=751480, verbose=True)
         # controller = VintHubController(sound_sensor_port=2, hub_serial_number=751480, verbose=True)
-        vinthub.capture_sensor_data(duration=60)                    # Set test duration as xx seconds
+        vinthub.capture_sensor_data(duration=10)                    # Set test duration as xx seconds
         vinthub.visualize_data(save_picture='sensor_data.png')       # Save the data image as xx.png 
     except PhidgetException as ex:
         traceback.print_exc()
