@@ -4,6 +4,9 @@ Includes various test scripts
 # JiraViz
 Collect Jira related script and get more help in daily work. 
 
+# PhidgetIR
+Universal infrared remote control.
+
 	# 1.进入学习模式1(阻塞模式, 依赖参数:[-l, -c CUSTOMER]): 接收红外键值. ex: python3 iRemote.py -l -c Hisense
 	`ir.learn_code()`
     
@@ -16,8 +19,8 @@ Collect Jira related script and get more help in daily work.
 	# 4.通过[-r, -c]组合来控制随机发送指定厂商遥控键值
 	`random_transmit(manufacturer=config.customer)`
         
-# PhidgetIR
-Universal infrared remote control.
+# PhidgetSensor
+Vint hub device combination with LightSensor and SoundSensor.
 
 	# 1.if LightSensor x1 and SoundSensor x1 exist
 	vinthub = VintHubController(light_sensor_port=1, sound_sensor_port=2, hub_serial_number=751480)
