@@ -304,7 +304,7 @@ class VintHubController:
         if save_picture:
             plt.savefig(save_picture)
             logging.info(f"Save captured picture as: {os.path.join(os.getcwd(), save_picture)}")
-        plt.show()
+        # plt.show()
 
     def close(self):
         """
