@@ -57,56 +57,7 @@ def init_logging(verbose):
     logger.addHandler(file_handler)
 
 class VintHubController:
-    # def __init__(self, light_sensor_port=None, sound_sensor_port=None, hub_serial_number=None):
-    #     """
-    #     Initialize the VintHubController with specified ports and serial number.
-
-    #     :param light_sensor_port: The hub port for the LightSensor.
-    #     :param sound_sensor_port: The hub port for the SoundSensor.
-    #     :param hub_serial_number: The serial number for the VINT Hub.
-    #     :param verbose: A flag for verbose logging.
-    #     """
-    #     # Initialize sensors as None
-    #     self.light_sensor = None
-    #     self.sound_sensor = None 
-
-    #     # Set Hub Port
-    #     if light_sensor_port is not None:
-    #         self.light_sensor = LightSensor()
-    #         self.light_sensor.setHubPort(light_sensor_port)  # LightSensor Port
-    #         self.light_sensor.openWaitForAttachment(5000)
-    #     if sound_sensor_port is not None:
-    #         self.sound_sensor = SoundSensor()
-    #         self.sound_sensor.setHubPort(sound_sensor_port)  # SoundSensor Port
-    #         self.sound_sensor.openWaitForAttachment(5000)
-
-    #     # Optionally set Hub serial number if provided
-    #     # if hub_serial_number and self.light_sensor:
-    #     #     self.light_sensor.setDeviceSerialNumber(hub_serial_number)
-    #     # if hub_serial_number and self.sound_sensor:
-    #     #     self.sound_sensor.setDeviceSerialNumber(hub_serial_number)
-
-    #     # Open channels
-    #     try:
-    #         if self.light_sensor:
-    #             logging.info(f"Attached LightSensor successfully!")
-    #             self.light_sensor.setIlluminanceChangeTrigger(0)    # Set illuminance change trigger to 0
-    #             self.light_sensor.setDataInterval(150)           # Data sampling interval, default as 250ms
-    #             self.light_data = []
-            
-    #         if self.sound_sensor:
-    #             logging.info(f"Attached SoundSensor successfully!")
-    #             self.sound_sensor.setSPLChangeTrigger(1.0)          # Set SPL change trigger to 1.0
-    #             self.sound_sensor.setDataInterval(150)           # Data sampling interval, default as 250ms
-    #             self.sound_data = []
-    #     except PhidgetException as e:
-    #         logging.error("PhidgetException {} ({}): {}".format(e.code, e.codeDescription, e.details))
-    #         return
-
-    #     self.timestamps = defaultdict(list)
-    #     self.stop = False
-
-    def __init__(self, light_sensor_port=None, sound_sensor_port=None, hub_serial_number=None):
+    def __init__(self, light_sensor_port: int, sound_sensor_port: int, hub_serial_number: int):
         """
         Initialize the VintHubController with specified ports and serial number.
 
