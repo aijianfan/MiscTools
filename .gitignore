@@ -1,4 +1,7 @@
 .DS_Store
 PhidgetIR/Script.log
+PhidgetIR/test_remote.py
 PhidgetSensor/Script.log
 PhidgetSensor/sensor_data.png
+__pycache__
+

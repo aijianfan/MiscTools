@@ -34,7 +34,7 @@ class LoadConfig:
     """ 初始化脚本参数、logging等配置 """
     def __init__(self):
         self.console = Console()         # rich console对象
-        self.keycodes = {}               # 存储键值信息的字典
+        # self.keycodes = {}               # 存储键值信息的字典
         self.parse_args()                # 解析脚本外部参数
         self.show_logo()                 # 加载Amlogic Auto logo
         self.init_logging()              # 初始化logging配置
@@ -42,20 +42,8 @@ class LoadConfig:
         self.display_system_info()       # 显示OS、CPU、Python版本等系统信息
         if self.all:                     # 当设置 "-a" 参数时, 列出所有厂商键值表信息
             self.show_all_counts()
-        if self.customer:                # 加载特定厂商的键值信息
-            self.load_keycodes(self.customer)
-
-    def load_keycodes(self, customer):
-        """ 加载特定厂商的键值信息到内存 """
-        try:
-            with open(YAML_KEYCODE_FILE, 'r', encoding='utf-8') as f:
-                data = yaml.safe_load(f)
-                self.keycodes[customer.capitalize()] = data.get(customer.capitalize(), {})
-                logging.info(f"Loaded keycodes for customer: [ {customer.capitalize()} ]")
-        except FileNotFoundError:
-            logging.error(f"YAML file not found: [{YAML_KEYCODE_FILE}].")
-        except KeyError as e:
-            logging.error(f"Error loading keycodes: {e}")
+        # if self.customer:                # 加载特定厂商的键值信息
+        #     self.load_keycodes(self.customer)
 
     def parse_args(self):
         """ 脚本参数配置 """
@@ -230,30 +218,6 @@ def retry(exceptions, retries=3, delay=1, backoff=2, logger=None):
         return wrapper
     return decorator
 
-def random_transmit(manufacturer=None, count=0):
-    """ 随机发送指定厂商遥控器键值 """
-    while True:
-        count += 1
-        logging.info(f"{'='*20} Loop: {count} {'='*20}")
-        key = random.choice(list(config.keycodes[manufacturer.capitalize()].keys()))
-        if key == "Power":
-            for _ in range(2):
-                command = ir.code_transition(manufacturer.capitalize(), key.capitalize())
-                try:
-                    ir.transmit_code(*command)
-                except PhidgetException as e:
-                    logging.error(f"Error during code transmission: {e}")
-                    continue
-                time.sleep(10)
-        else:
-            command = ir.code_transition(manufacturer.capitalize(), key.capitalize())
-            try:
-                ir.transmit_code(*command)
-            except PhidgetException as e:
-                logging.error(f"Error during code transmission: {e}")
-                continue
-        time.sleep(random.uniform(1, 2))
-
 # @pysnooper.snoop()
 def process_action(action_name, action_details, ir):
     """ 主程序 """
@@ -294,20 +258,35 @@ def execute_steps(steps, ir, manufacturer, count):
 # @pysnooper.snoop()
 class PhidgetIR:
     """ Phidget IR测试设备 """
-    def __init__(self):
+    def __init__(self, yaml_keycode="remote_control_codes.yaml", customer=None):
         self.ir = IR()
+        self.keycodes = {}               # 存储键值信息的字典
         self.codeinfo = dict()
         self.rawlist = list()
+        self.yaml_keycode = yaml_keycode
         try:
             self.ir.openWaitForAttachment(5000)
             self.ir.setOnAttachHandler(self.onIR_attach())
             # self.ir.setOnDetachHandler(self.onIR_detach())
             # self.ir.setOnErrorHandler(self.onIR_Error)
             self.show_info()
+            if customer:
+                self.load_keycodes(customer)
         except Exception as e:
             logging.error(f"Failed to attach Phidget IR: {e}")
-            config.console.print_exception()
             sys.exit(1)
+    
+    def load_keycodes(self, customer):
+        """ 加载特定厂商的键值信息到内存 """
+        try:
+            with open(self.yaml_keycode, 'r', encoding='utf-8') as f:
+                data = yaml.safe_load(f)
+                self.keycodes[customer.capitalize()] = data.get(customer.capitalize(), {})
+                logging.info(f"Loaded keycodes for customer: [ {customer.capitalize()} ]")
+        except FileNotFoundError:
+            logging.error(f"YAML file not found: [{self.yaml_keycode}].")
+        except KeyError as e:
+            logging.error(f"Error loading keycodes: {e}")
     
     def onIR_attach(self):
         """ 设备正常挂载时返回信息 """
@@ -354,7 +333,7 @@ class PhidgetIR:
         logging.info(f'CodeInfo: [ {self.codeinfo} ]')
 
         # 保存厂商、按键名、键值数据、键值结构到指定的YAML文件
-        self.to_file(manufacturer=config.customer.capitalize(), button_name=self.button_name.capitalize(), code=self.code, codeInfo=self.codeinfo, rawdata=None, file=YAML_KEYCODE_FILE)
+        self.to_file(manufacturer=config.customer.capitalize(), button_name=self.button_name.capitalize(), code=self.code, codeInfo=self.codeinfo, rawdata=None, file=self.yaml_keycode)
 
     def parse_from_yaml(self, file: str, manufacturer: str, button_name: str):
         """ 从YAML文件中读取红外键值数据: YAML文件、厂商、按键名, 返回: 键值、键值数据 """
@@ -383,7 +362,8 @@ class PhidgetIR:
         """ 从内存中的键值信息提取客户、按键信息, 转化为所需的键值数据、键值结构 """
         try:
             logging.info(f'Attempt to send remote key from [ {customer} ]: < {remote_button} >')
-            code_info_dict = config.keycodes.get(customer.capitalize(), {}).get(remote_button.capitalize(), {})
+            code_info_dict = self.keycodes.get(customer.capitalize(), {}).get(remote_button.capitalize(), {})
+            logging.debug(f"code_info_dict: {code_info_dict}")
             code = code_info_dict.get('code', None)
             code_info = code_info_dict.get('codeInfo', None)
             rawdata = code_info_dict.get('rawdata', None)
@@ -428,7 +408,7 @@ class PhidgetIR:
             if i == 9:
                 try:
                     self.transmit_code(code=None, codeInfo=None, rawdata=self.rawlist)     # 尝试发送刚学到的键值结构是否会出现错误
-                    self.to_file(manufacturer=config.customer.capitalize(), button_name=self.button_name.capitalize(), code=None, codeInfo=None, rawdata=self.rawlist, file=YAML_KEYCODE_FILE)
+                    self.to_file(manufacturer=config.customer.capitalize(), button_name=self.button_name.capitalize(), code=None, codeInfo=None, rawdata=self.rawlist, file=self.yaml_keycode)
                 except PhidgetException as e:
                     logging.error(f"Error during raw data transmission: {e}")
                     continue
@@ -456,6 +436,30 @@ class PhidgetIR:
             logging.debug(f"Transmit rawdata: {rawdata}, config: carrierFrequency: {freq}, dutyCyle: {period}, gap: {gap}")
         except PhidgetException as e:
             logging.error(f"Error during code transfering: {e}")
+
+    def random_transmit(self, manufacturer=None, count=0):
+        """ 随机发送指定厂商遥控器键值 """
+        while True:
+            count += 1
+            logging.info(f"{'='*20} Loop: {count} {'='*20}")
+            key = random.choice(list(self.keycodes[manufacturer.capitalize()].keys()))
+            if key == "Power":
+                for _ in range(2):
+                    command = self.code_transition(manufacturer.capitalize(), key.capitalize())
+                    try:
+                        self.transmit_code(*command)
+                    except PhidgetException as e:
+                        logging.error(f"Error during code transmission: {e}")
+                        continue
+                    time.sleep(10)
+            else:
+                command = self.code_transition(manufacturer.capitalize(), key.capitalize())
+                try:
+                    self.transmit_code(*command)
+                except PhidgetException as e:
+                    logging.error(f"Error during code transmission: {e}")
+                    continue
+            time.sleep(random.uniform(1, 2))
 
     def to_file(self, manufacturer: str, button_name: str, code: str, codeInfo: dict, rawdata: list, file: str) -> None:
         """ 向YAML文件中添加遥控器按键代码. """
@@ -519,8 +523,9 @@ if __name__ == "__main__":
         YAML_TEST_CASE = None
 
     # 当存在外部参数[-l, -m, -s, -f, -r]时, 才对PhidgetIR设备进行初始化
-    if any([config.learn, config.mode, config.send, config.file, config.random]):
-        ir = PhidgetIR()                
+    customer = config.customer if config.customer else None
+    ir = PhidgetIR(yaml_keycode=YAML_KEYCODE_FILE, customer=customer)                
+    # if any([config.learn, config.mode, config.send, config.file, config.random]):
 
     if config.learn and not config.customer:
         logging.warning(f'Enter Learning Mode need execute script with add "-c CUSTOMER" param!')
@@ -536,6 +541,10 @@ if __name__ == "__main__":
     # 进入单个键值发射模式(单次执行, 依赖参数:[-s, -c CUSTOMER, -k KEY]): 发送红外键值. ex: python3 iRemote.py -s -c Hisense -k Home
     if config.send and config.customer and config.key:
         ir.transmit_code(*ir.code_transition(config.customer, config.key))
+    
+    # 通过[-r, -c]组合来控制随机发送指定厂商遥控键值
+    if config.random and config.customer:
+        ir.random_transmit(manufacturer=config.customer)
 
     # 进入加载YAML测试文件的测试模式. ex: python3 iRemote.py -f test_atv_playback.yaml
     if config.file:
@@ -550,6 +559,3 @@ if __name__ == "__main__":
         finally:
             summary_result()  # 汇总脚本执行耗时等信息
     
-    # 通过[-r, -c]组合来控制随机发送指定厂商遥控键值
-    if config.random and config.customer:
-        random_transmit(manufacturer=config.customer)
